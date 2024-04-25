@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class Cell:
     """
     Class representing a cell in the subdivision of the space, either light or heavy.
@@ -26,7 +27,12 @@ class Cell:
         :param points: All points in the dataset
         :return: amount of points in the cell
         """
-        return 0
+        if self.parent is not None:
+            self.points = [point for point in self.parent.points if
+                           self.is_point_inside(point) and point not in self.points]
+        else:
+            self.points = [point for point in points if self.is_point_inside(point) and point not in self.points]
+        return len(self.points)
 
     def is_point_inside(self, point) -> bool:
         """
@@ -34,4 +40,10 @@ class Cell:
         :param point: The point to check.
         :return: True if the point is inside the cell, False otherwise.
         """
+        if len(self.center) != len(point):
+            raise ValueError("Dimension mismatch: cell center and point must have the same dimensionality")
+
+        for i in range(len(self.center)):
+            if not self.center[i] - self.size / 2 <= point[i] < self.center[i] + self.size / 2:
+                return False
         return True
