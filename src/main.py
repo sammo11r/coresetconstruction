@@ -24,12 +24,12 @@ def generate_discrete_points(num_points: int, dimension: int, min_val: int, max_
 k = 2 # Number of centers
 d = 2 # Dimensionality of the space
 epsilon = 0.1
-n = 1000 # number of points
+n = 3000000 # number of points
 OPT = 100 # Optimal solution to the entire pointset
-max_coordinate = 10  # Example maximum coordinate value
+max_coordinate = 100000  # Example maximum coordinate value
 
 # Generate the points
-# points = generate_discrete_points(n, d, 0, 100)
+# points = generate_discrete_points(n, d, 0, max_coordinate)
 # Save points to a file
 # np.savetxt('points.txt', points)
 
@@ -42,10 +42,34 @@ delta = (1 / (4 * k * math.sqrt(d) * (math.log(len(points) + 1, 2)))) * (epsilon
 S, subdivision = preprocessing(points, d, delta, OPT, epsilon)
 
 # Define the range
-R = [[5, 5], [10, 10]]
+R = [[5, 5], [500, 10]]
 
 # Compute the coreset
 Qr = RangeCoresetConstruction(subdivision, S, R)
 
-for point in Qr:
-    print(point)
+print(len(Qr))
+
+
+def streaming_algorithm(dimension: int, Delta: int, points: np.ndarray, delta: float):
+    """
+    Method implementing the streaming part of our algorithm
+    :param dimension: the dimensionailty of our space
+    :param Delta: the maximum size of our discrete space
+    :param points: an array containing all the points in the stream
+    :param delta: a constant used in the calculation of heavy cells
+    """
+    # Define the instances of 2^j to approximate OPT
+    instances = [j for j in range(1, math.ceil((dimension + 1) * math.log(Delta + 1, 2)))]
+
+    # Define constants for the sampling probability
+    rho = 1 #@TODO define
+    a = 6 * (1/(epsilon**2)) * math.log(1/rho, math.e) + 1
+
+    # Simulate the stream
+    for point in points:
+        # Define the sampling probability
+        prob = (a / delta)
+
+    pass
+
+# streaming_algorithm(d, max_coordinate, points, delta)

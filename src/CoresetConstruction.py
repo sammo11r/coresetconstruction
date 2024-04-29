@@ -50,7 +50,7 @@ def coreset_construction(points: np.ndarray, dimension: int, delta: float, OPT: 
     stack = [root_cell]
     while stack:
         cell = stack.pop()
-        if cell.calc_points(points) >= delta * (OPT / cell.size):
+        if cell.calc_points(points) >= delta * (OPT / cell.size) and cell.size >= 2:
             cell.is_heavy = True
             divide_cell(cell)
             stack.extend(cell.subcells)

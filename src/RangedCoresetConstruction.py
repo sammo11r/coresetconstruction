@@ -7,9 +7,7 @@ def RangeCoresetConstruction(subdivision: list, S: list, R: list) -> np.ndarray:
     :param subdivision: the subdivision of the space
     :param S: a set of points S
     :param R: the query rectangle R
-    :param k: the number of centers to select for the coreset
-    :param epsilon: the error parameter for the coreset construction
-    :return: an array Srp representing the coreset for P ∩ R
+    :return: an array Qr representing the coreset for P ∩ R
     """
     # Convert S to a NumPy array
     S_array = np.array(S)
