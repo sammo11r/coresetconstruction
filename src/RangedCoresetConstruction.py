@@ -1,31 +1,23 @@
 import numpy as np
 
 
-def RangeCoresetConstruction(subdivision: list, S: list, R: list) -> np.ndarray:
+def RangeCoresetConstruction(weights: list, S: list, R: list) -> tuple:
     """
     Method used to compute the coreset for the range R
-    :param subdivision: the subdivision of the space
+    :param weights: the weights of the points
     :param S: a set of points S
     :param R: the query rectangle R
     :return: an array Qr representing the coreset for P ∩ R
     """
-    # Convert S to a NumPy array
-    S_array = np.array(S)
-
     Qr = []
-    for cell in subdivision:
-        if intersects(cell, R):
-            if contains(cell, R):
-                for point in cell.points:
-                    if np.any(np.all(S_array == point, axis=1)):
-                        Qr.append(point)
-            else:
-                points_in_range = [p for p in cell.points if intersects_points(p, R)]
-                for point in points_in_range:
-                    if np.any(np.all(S_array == point, axis=1)):
-                        Qr.append(point)
+    Qr_weights = []
 
-    return Qr
+    for i, point in enumerate(S):
+        if R[0][0] <= point[0] <= R[1][0] and R[0][1] <= point[1] <= R[1][1]:
+            Qr.append(point)
+            Qr_weights.append(weights[i])
+
+    return np.array(Qr), np.array(Qr_weights)
 
 
 def intersects(cell, R):

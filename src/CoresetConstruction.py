@@ -3,7 +3,7 @@ import numpy as np
 from cell import Cell
 
 
-def divide_cell(cell: Cell):
+def divide_cell(cell: Cell) -> None:
     """
     Helper function used to divide a cell into 2^d equally sized subcells
     :param cell: the parent cell to be divided
@@ -18,7 +18,7 @@ def divide_cell(cell: Cell):
         cell.subcells.append(subcell)
 
 
-def generate_subcell_centers(center: float, subcell_size: float):
+def generate_subcell_centers(center: float, subcell_size: float) -> list:
     """
     Generate the centers of the subcells in 2 dimensions
     :param center: center of the parent cell
@@ -30,7 +30,7 @@ def generate_subcell_centers(center: float, subcell_size: float):
     return subcell_centers
 
 
-def coreset_construction(points: np.ndarray, dimension: int, delta: float, OPT: float):
+def coreset_construction(points: np.ndarray, dimension: int, delta: float, OPT: float) -> list:
     """
     Main function - used to calculate the subdivision of the space into light cells
     :param points: the pointset on which the subdivision will be computed
@@ -50,7 +50,7 @@ def coreset_construction(points: np.ndarray, dimension: int, delta: float, OPT: 
     stack = [root_cell]
     while stack:
         cell = stack.pop()
-        if cell.calc_points(points) >= delta * (OPT / cell.size) and cell.size >= 2:
+        if cell.calc_points(points) >= delta * (OPT / cell.size):
             cell.is_heavy = True
             divide_cell(cell)
             stack.extend(cell.subcells)
