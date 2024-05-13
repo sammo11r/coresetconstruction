@@ -1,0 +1,1 @@
+This repository contains the code, and the Twitter database, used for the experimental analysis of the ranged k-median algorithm presented in the master thesis "Range-Centric Coresets in Dynamic Geometric Streams". The main functionality can be accessed by running the main.py file.
