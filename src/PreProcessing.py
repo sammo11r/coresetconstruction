@@ -15,7 +15,6 @@ def preprocessing(points: np.ndarray, dimensions: int, delta: float, OPT: float,
     :returns: set of sampled points S and subdivision of the space subdivision
     """
     subdivision = coreset_construction(points, dimensions, delta, OPT)
-    # plot_light_cells(subdivision)
 
     S = []
     weights = []
